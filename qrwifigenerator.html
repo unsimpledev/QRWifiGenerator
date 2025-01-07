@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QR Wi-Fi Generator</title>
+        <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    </head>
+    <body style="text-align: center;">
+        <h1>Escaneá el QR para conectarte al Wi-Fi</h1>
+        <div id="qrcode"></div>
+        <div id="data"></div>
+        <script>
+            // Datos de conexión al Wi-Fi
+            const type = "WPA";// WPA - WEP - Vacío
+            const ssid = "NombreRed"; // Nombre de tu red
+            const password = "PasswordRed"; // Contraseña de tu red
+
+            //Formato de QR para conectarse a WIFI
+            const wifiTemplate = `WIFI:T:${type};S:${ssid};P:${password};;`;
+            // Generamos el QR y lo mostramos en la página
+            const qrCodeContainer = document.getElementById("qrcode");
+			QRCode.toCanvas(wifiTemplate, { width: 300 }, (err, canvas) => {
+				if (err) {
+					console.error("Error al generar el QR:", err);
+					return;
+				}
+				qrCodeContainer.appendChild(canvas);                
+			});
+            //Muestro los datos
+            const dataContainer = document.getElementById("data");
+            dataContainer.innerHTML = `
+                <p>${type}</p>
+                <p>${ssid}</p>
+                <p>${password}</p>
+            `;
+        </script>
+    </body>
+</html>
